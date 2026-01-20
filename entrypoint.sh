@@ -305,7 +305,5 @@ else
     echo "=========================================="
     echo ""
 
-    java $JAVA_OPTS -jar Server/HytaleServer.jar --assets Assets.zip &
-    SERVER_PID=$!
-    wait $SERVER_PID
+    exec java $JAVA_OPTS -jar Server/HytaleServer.jar --assets Assets.zip
 fi
