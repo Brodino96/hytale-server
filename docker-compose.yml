@@ -16,4 +16,5 @@ services:
       - JAVA_OPTS=-Xmx2G
       - UPDATE_ON_STARTUP=true
       - PATCHLINE=release
+      - SERVER_ARGS=--backup --backup-dir backups --backup-frequency 30
     restart: unless-stopped

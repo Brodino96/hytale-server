@@ -91,7 +91,7 @@ if [ "$UPDATE_ON_STARTUP" = "true" ]; then
     else
         # Server files exist - check for updates with timeout
         echo "Checking latest version for patchline: $PATCHLINE"
-        
+
         LATEST_VERSION=$(timeout 10s ./hytale-downloader-linux-amd64 -print-version -patchline "$PATCHLINE" 2>/dev/null || echo "")
 
         if [ -z "$LATEST_VERSION" ]; then
@@ -136,7 +136,7 @@ if [ "$UPDATE_ON_STARTUP" = "true" ]; then
                     rm -rf /data/Server.bak
                     cp -r /data/Server /data/Server.bak
                     echo "  - Server/ -> Server.bak/"
-                    
+
                     if [ -f "/data/Assets.zip" ]; then
                         rm -f /data/Assets.zip.bak
                         cp /data/Assets.zip /data/Assets.zip.bak
@@ -245,7 +245,7 @@ if [ ! -f "$AUTH_FILE" ]; then
     touch "$CMD_FILE"
 
     # Start server with stdin from tail -f (which follows the command file)
-    tail -f "$CMD_FILE" | java $JAVA_OPTS -jar Server/HytaleServer.jar --assets Assets.zip 2>&1 | while IFS= read -r line; do
+    tail -f "$CMD_FILE" | java $JAVA_OPTS -jar Server/HytaleServer.jar --assets Assets.zip  $SERVER_ARGS 2>&1 | while IFS= read -r line; do
         # Print the line (preserve server output)
         echo "$line"
 
@@ -292,7 +292,7 @@ if [ ! -f "$AUTH_FILE" ]; then
     done &
     SERVER_PID=$!
     wait $SERVER_PID
-    
+
     # Clean up
     rm -f "$CMD_FILE"
 else
@@ -305,5 +305,5 @@ else
     echo "=========================================="
     echo ""
 
-    exec java $JAVA_OPTS -jar Server/HytaleServer.jar --assets Assets.zip
+    exec java $JAVA_OPTS -jar Server/HytaleServer.jar --assets Assets.zip $SERVER_ARGS
 fi
